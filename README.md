@@ -29,45 +29,12 @@
 
 ## 💻 구현 기능
 
-#### 김주현
-
-- 상품상세페이지 후기 및 댓글 등록 기능 구현
-- 메인페이지 검색기능 구현
-
-#### 이기용
-
 - offset과 limit을 이용한 페이징기법으로 상품 목록 조회 API
 - 최신순, 가격높은순, 가격낮은순, 이름순 정렬을 이용한 상품 목록 조회 API
 - 특정 상품 클릭 시, 상품 상세정보 보여주는 상세정보 API
 
-#### 송영록
-
-- 회원가입 API
-- 로그인 API
-- 장바구니 상품 추가, 수정, 삭제 API
-
-#### 김현진
-- 상품리스트 레이아웃 구현
-- 페이지네이션으로 상품데이터를 받아오는 기능
-- 높은가격순, 낮은가격순,이름순,최신등록순,컬러순 ordering 기능
-- 상세페이지의 레이아웃 구현
-- query string url 을 사용한 상세페이지 연결 구현
-- fetch post로 장바구니페이지에 데이터 전달 기능
-- review form 레이아웃 구현
-- fetch get/delete를 통한 후기 게시글, 댓글 등록/삭제 기능
-
 
 ## ⌨ EndPoint
-
-- POST/users/signup (회원가입)
-- POST/users/signin (로그인)
-- POST/orders/cart (장바구니 생성)
-- GET/orders/cart (장바구니 조회)
-- PATCH/orders/cart (장바구니 수정)
-- DEL/orders/cart (장바구니 삭제)
-- POST/postings  (후기 등록)
-- POST/postings/comments (댓글 등록)
-- POST/postings/<int:comment_id> (댓글 삭제)
 
 - POST/products/menus (메뉴 항목 추가)
 - GET/products/menus (메뉴 항목 리스트 조회)
