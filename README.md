@@ -36,13 +36,26 @@
 
 ## ⌨ EndPoint
 
-- POST/products/menus                              (메뉴 항목 추가)
-- GET/products/menus                               (메뉴 항목 리스트 조회)
-- POST/products/categories                         (카테고리 항목 추가)
-- GET/products/<str:menus>/<str:menu_name>         (특정 메뉴별 카테고리 항목 리스트 조회)
-- POST/products                                    (상품 등록)
-- GET/products/<str:menu_name>/<str:category_name> (특정 메뉴-카테고리별 상품 리스트 조회)
-- GET/products/<int:product_id>                    (특정 상품에 대한 상세페이지)
+1. POST/products/menus                              
+- 메뉴 항목 추가
+
+2. GET/products/menus                               
+- 메뉴 항목 리스트 조회
+
+3. POST/products/categories                         
+- 카테고리 항목 추가
+
+4 GET/products/<str:menus>/<str:menu_name>         
+- 특정 메뉴별 카테고리 항목 리스트 조회
+
+5. POST/products                                    
+- 상품 등록
+
+6. GET/products/<str:menu_name>/<str:category_name> 
+- 특정 메뉴-카테고리별 상품 리스트 조회
+
+7. GET/products/<int:product_id>                    
+- 특정 상품에 대한 상세페이지
 
 
 ## ❗ Reference
