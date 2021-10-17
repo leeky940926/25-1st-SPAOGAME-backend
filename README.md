@@ -17,7 +17,7 @@
 
 ## 🎬 프로젝트 구현 영상
 
-- 🔗 [영상 링크]
+- 🔗 ![영상 링크](
 
 ## ⚙ 적용 기술
 - **Front-End** : HTML5, CSS3, React, SASS, JSX
@@ -36,13 +36,13 @@
 
 ## ⌨ EndPoint
 
-- POST/products/menus (메뉴 항목 추가)
-- GET/products/menus (메뉴 항목 리스트 조회)
-- POST/products/categories (카테고리 항목 추가)
-- GET/products/<str:menus>/<str:menu_name> (특정 메뉴별 카테고리 항목 리스트 조회)
-- POST/products (상품 등록)
+- POST/products/menus                              (메뉴 항목 추가)
+- GET/products/menus                               (메뉴 항목 리스트 조회)
+- POST/products/categories                         (카테고리 항목 추가)
+- GET/products/<str:menus>/<str:menu_name>         (특정 메뉴별 카테고리 항목 리스트 조회)
+- POST/products                                    (상품 등록)
 - GET/products/<str:menu_name>/<str:category_name> (특정 메뉴-카테고리별 상품 리스트 조회)
-- GET/products/<int:product_id> (특정 상품에 대한 상세페이지)
+- GET/products/<int:product_id>                    (특정 상품에 대한 상세페이지)
 
 
 ## ❗ Reference
