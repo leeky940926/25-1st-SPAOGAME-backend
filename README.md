@@ -45,7 +45,7 @@
 3. POST/products/categories                         
 - 카테고리 항목 추가
 
-4 GET/products/<str:menus>/<str:menu_name>         
+ &nbsp;4 GET/products/<str:menus>/<str:menu_name>         
 - 특정 메뉴별 카테고리 항목 리스트 조회
 
 5. POST/products                                    
