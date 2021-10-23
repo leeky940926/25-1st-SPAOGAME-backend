@@ -131,7 +131,7 @@ class ProductView(View) :
                 3 : 'name'
             }
 
-            if limit-offset > 20 :
+            if limit > 20 :
                 return JsonResponse({'message':'too much lists'}, status=400)
 
             menu_id     = Menu.objects.get(name=menu_name)
@@ -145,7 +145,7 @@ class ProductView(View) :
                 'img_urls'     : product.thumbnail_image_url,
                 'review_count' : product.posting_set.all().count(),
                 'colors'       : [Color.objects.get(id=color['color_id']).name for color 
-                in DetailedProduct.objects.filter(product_id=product.id).values('color_id').distinct()]
+                in DetailedProduct.objects.filter(product_id=product.id).values('color_id')]
             } for product in products]
 
             return JsonResponse({'goods':goods}, status=200)
@@ -160,8 +160,8 @@ class DetailProductView(View) :
     def get(self, request, id) :
         try :      
             products       = DetailedProduct.objects.filter(product_id=id) 
-            colors         = DetailedProduct.objects.filter(product_id=id).values('color_id').distinct()
-            sizes          = DetailedProduct.objects.filter(product_id=id).values('size_id').order_by('size_id').distinct()
+            colors         = DetailedProduct.objects.filter(product_id=id).values('color_id')
+            sizes          = DetailedProduct.objects.filter(product_id=id).values('size_id').order_by('size_id')
             product_images = Image.objects.filter(product_id=id)
             product_name   = Product.objects.get(id=id).name
             product_price  = Product.objects.get(id=id).price
