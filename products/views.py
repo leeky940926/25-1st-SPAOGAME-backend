@@ -25,7 +25,7 @@ from users.models    import User
 class MenuView(View) :
     def post(self, request) :
         try :
-            data      = json.loads(request.body)
+            data = json.loads(request.body)
 
             Menu.objects.create(name=data['name'])
 
@@ -49,7 +49,7 @@ class MenuView(View) :
 class CategoryView(View) :
     def post(self, request) :
         try :
-            data    = json.loads(request.body)
+            data = json.loads(request.body)
 
             Category.objects.create(
                 menu_id = data['menu_id'],
