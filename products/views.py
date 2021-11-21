@@ -30,23 +30,22 @@ class MenuView(View) :
 
             Menu.objects.create(name=menu_name)
 
-            return JsonResponse({'message':'Save Success'}, status=201)
+            return JsonResponse({'message' : 'Save Success'}, status=201)
         
-        except KeyError as e : 
-            return JsonResponse({'message': e}, status=400)
+        except KeyError : 
+            return JsonResponse({'message' : 'KeyError'}, status=400)
 
     def get(self, request) :
         try :
-            menus      = Menu.objects.all()
-            menu_lists = [{"id" : menu.id, "name" : menu.name} for menu in menus]
+            menu_lists = [{"id" : menu.id, "name" : menu.name} for menu in Menu.objects.all()]
 
-            return JsonResponse({'menus': menu_lists}, status=200)
+            return JsonResponse({'menus' : menu_lists}, status=200)
 
-        except AttributeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except AttributeError :
+            return JsonResponse({'message' : 'AttributeError'}, status=400)
         
-        except TypeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except TypeError :
+            return JsonResponse({'message' : 'TypeError'}, status=400)
 
 class CategoryView(View) :
     def post(self, request) :
@@ -60,27 +59,26 @@ class CategoryView(View) :
                 name    = name
             )
 
-            return JsonResponse({'message':"Save Success"}, status=201)
+            return JsonResponse({'message' : 'Save Success'}, status=201)
 
-        except KeyError as e : 
-            return JsonResponse({'message': e}, status=400)
+        except KeyError : 
+            return JsonResponse({'message' : 'KeyError'}, status=400)
 
-        except IntegrityError as e :
-            return JsonResponse({'message':e}, status=200)
+        except IntegrityError :
+            return JsonResponse({'message' : 'IntegrityError'}, status=200)
 
     def get(self, request, menu_name) :
         try :
-            menu_id        = Menu.objects.get(name=menu_name)
-            categories     = Category.objects.filter(menu_id=menu_id)
-            category_lists = [{'menu_id' : category.menu_id, 'category_id' : category.id} for category in categories]
 
-            return JsonResponse({'categories': category_lists}, status=200)
+            category_lists = [{'menu_id' : category.menu_id, 'category_id' : category.id} for category in Category.objects.filter(menu_id=Menu.objects.get(name=menu_name))]
 
-        except AttributeError as e :
-            return JsonResponse({'message': e}, status=400)
+            return JsonResponse({'categories' : category_lists}, status=200)
+
+        except AttributeError :
+            return JsonResponse({'message' : 'AttributeError'}, status=400)
         
-        except TypeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except TypeError :
+            return JsonResponse({'message' : 'TypeError'}, status=400)
 
 class ProductView(View) :
     def post(self, request) :
@@ -110,18 +108,18 @@ class ProductView(View) :
 
                 Image.objects.bulk_create(urls)
 
-            return JsonResponse({'message':'Save Success'}, status=200)
+            return JsonResponse({'message' : 'Save Success'}, status=200)
 
-        except KeyError as e : 
-            return JsonResponse({'message': e}, status=400)
+        except KeyError : 
+            return JsonResponse({'message' : 'KeyError'}, status=400)
 
-        except IntegrityError as e :
-            return JsonResponse({'message': e}, status=200)
+        except IntegrityError :
+            return JsonResponse({'message' : 'IntegrityError'}, status=200)
 
     def get(self, request, menu_name, category_name) :
         try :
             offset   = int(request.GET.get('offset', 0)) 
-            limit    = int(request.GET.get('limit', 0))
+            limit    = int(request.GET.get('limit', 15))
             order_id = int(request.GET.get('order_id', 0))
 
             order_dic = {
@@ -133,11 +131,7 @@ class ProductView(View) :
 
             if limit > 20 :
                 return JsonResponse({'message':'too much lists'}, status=400)
-
-            menu_id     = Menu.objects.get(name=menu_name)
-            category_id = Category.objects.get(menu_id=menu_id, name=category_name)
-            products    = Product.objects.filter(menu_id=menu_id, category_id=category_id).order_by(order_dic[order_id])[offset:offset+limit]
-
+            
             goods = [{
                 'id'           : product.id,
                 'name'         : product.name,
@@ -146,22 +140,22 @@ class ProductView(View) :
                 'review_count' : product.posting_set.all().count(),
                 'colors'       : [Color.objects.get(id=color['color_id']).name for color 
                 in DetailedProduct.objects.filter(product_id=product.id).values('color_id')]
-            } for product in products]
+            } for product in Product.objects.filter(menu=Menu.objects.get(name=menu_name), category=Category.objects.get(menu_id=menu_id, name=category_name)).order_by(order_dic[order_id])[offset:offset+limit]]
 
             return JsonResponse({'goods':goods}, status=200)
 
-        except AttributeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except AttributeError :
+            return JsonResponse({'message' : 'AttributeError'}, status=400)
         
-        except TypeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except TypeError :
+            return JsonResponse({'message' : 'TypeError'}, status=400)
 
 class DetailProductView(View) :
     def get(self, request, id) :
         try :      
             products       = DetailedProduct.objects.filter(product_id=id) 
             colors         = DetailedProduct.objects.filter(product_id=id).values('color_id')
-            sizes          = DetailedProduct.objects.filter(product_id=id).values('size_id').order_by('size_id')
+            sizes          = DetailedProduct.objects.filter(product_id=id).values('size_id')
             product_images = Image.objects.filter(product_id=id)
             product_name   = Product.objects.get(id=id).name
             product_price  = Product.objects.get(id=id).price
@@ -201,13 +195,13 @@ class DetailProductView(View) :
                 "posting_count" : posting_count,
             }]
                     
-            return JsonResponse({'goods_detail':goods_detail}, status=200)
+            return JsonResponse({'goods_detail' : goods_detail}, status=200)
 
-        except AttributeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except AttributeError :
+            return JsonResponse({'message' : 'AttributeError'}, status=400)
         
-        except TypeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except TypeError :
+            return JsonResponse({'message' : 'TypeError'}, status=400)
 
 class MainView(View) :
     def get(self, request) :
@@ -217,10 +211,10 @@ class MainView(View) :
                 "image"      : product.thumbnail_image_url
             } for product in Product.objects.all()]
 
-            return JsonResponse({'message':product}, status=200)
+            return JsonResponse({'message' : product}, status=200)
 
-        except AttributeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except AttributeError :
+            return JsonResponse({'message' : 'AttributeError'}, status=400)
         
-        except TypeError as e :
-            return JsonResponse({'message': e}, status=400)
+        except TypeError :
+            return JsonResponse({'message' : 'TypeError'}, status=400)
