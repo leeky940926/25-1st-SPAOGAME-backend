@@ -26,9 +26,8 @@ class MenuView(View) :
     def post(self, request) :
         try :
             data      = json.loads(request.body)
-            menu_name = data['name']
 
-            Menu.objects.create(name=menu_name)
+            Menu.objects.create(name=data['name'])
 
             return JsonResponse({'message' : 'Save Success'}, status=201)
         
@@ -51,12 +50,10 @@ class CategoryView(View) :
     def post(self, request) :
         try :
             data    = json.loads(request.body)
-            menu_id = data['menu_id']
-            name    = data['name']
 
             Category.objects.create(
-                menu_id = menu_id,
-                name    = name
+                menu_id = data['menu_id'],
+                name    = data['name']
             )
 
             return JsonResponse({'message' : 'Save Success'}, status=201)
@@ -70,7 +67,8 @@ class CategoryView(View) :
     def get(self, request, menu_name) :
         try :
 
-            category_lists = [{'menu_id' : category.menu_id, 'category_id' : category.id} for category in Category.objects.filter(menu_id=Menu.objects.get(name=menu_name))]
+            category_lists = [{'menu_id' : category.menu_id, 'category_id' : category.id} for category in Category.objects.\
+                filter(menu_id=Menu.objects.get(name=menu_name))]
 
             return JsonResponse({'categories' : category_lists}, status=200)
 
@@ -140,7 +138,9 @@ class ProductView(View) :
                 'review_count' : product.posting_set.all().count(),
                 'colors'       : [Color.objects.get(id=color['color_id']).name for color 
                 in DetailedProduct.objects.filter(product_id=product.id).values('color_id')]
-            } for product in Product.objects.filter(menu=Menu.objects.get(name=menu_name), category=Category.objects.get(menu_id=menu_id, name=category_name)).order_by(order_dic[order_id])[offset:offset+limit]]
+            } for product in Product.objects.filter(menu=Menu.objects.get(name=menu_name), 
+                category=Category.objects.get(menu=Menu.objects.get(name=menu_name), name=category_name)).\
+                order_by(order_dic[order_id])[offset:offset+limit]]
 
             return JsonResponse({'goods':goods}, status=200)
 
@@ -153,20 +153,8 @@ class ProductView(View) :
 class DetailProductView(View) :
     def get(self, request, id) :
         try :      
-            products       = DetailedProduct.objects.filter(product_id=id) 
-            colors         = DetailedProduct.objects.filter(product_id=id).values('color_id')
-            sizes          = DetailedProduct.objects.filter(product_id=id).values('size_id')
-            product_images = Image.objects.filter(product_id=id)
-            product_name   = Product.objects.get(id=id).name
-            product_price  = Product.objects.get(id=id).price
-            posting_count  = Posting.objects.filter(product_id=id).count()
 
-            for product in products :
-                          
-                color_list   = [Color.objects.get(id=color['color_id']).name for color in colors]
-                size_list    = [Size.objects.get(id=size['size_id']).name for size in sizes]
-                image_list   = [image.urls for image in product_images]
-                postings     = Posting.objects.filter(product_id=product.product_id).order_by('-created_at')
+            for product in DetailedProduct.objects.filter(product_id=id) :
 
                 posting_info = [{
                     "posting_id"      : posting.id,
@@ -182,17 +170,17 @@ class DetailProductView(View) :
                         "comment_content" : comment.content,
                         "comment_date"    : comment.created_at.strftime('%Y-%m-%d')
                     } for comment in Comment.objects.filter(posting=posting.id).order_by('created_at')]
-                } for posting in postings]
+                } for posting in Posting.objects.filter(product_id=product.product_id).order_by('-created_at')]
 
             goods_detail = [{
                 "product_id"    : id,
-                "name"          : product_name,
-                "price"         : product_price,
-                "colors"        : color_list,
-                "size"          : size_list,
-                "image_list"    : image_list,
+                "name"          : Product.objects.get(id=id).name,
+                "price"         : Product.objects.get(id=id).price,
+                "colors"        : [Color.objects.get(id=color['color_id']).name for color in DetailedProduct.objects.filter(product_id=id).values('color_id')],
+                "size"          : [Size.objects.get(id=size['size_id']).name for size in DetailedProduct.objects.filter(product_id=id).values('size_id')],
+                "image_list"    : [image.urls for image in Image.objects.filter(product_id=id)],
                 "posting_info"  : posting_info,
-                "posting_count" : posting_count,
+                "posting_count" : Posting.objects.filter(product_id=id).count(),
             }]
                     
             return JsonResponse({'goods_detail' : goods_detail}, status=200)
