@@ -10,6 +10,8 @@
 
 해당 Git Repository는 위코드 부트캠프 1차 프로젝트 웹 사이트 스파오를 모티브로한 프로젝트가 담겨져 있습니다.
 
+개발 기간은 2021년 10월 05일부터 2021년 10월 15일까지입니다.
+
 이번 과정에서 제가 맡은 역할은 
 
 1. 프로젝트 PM
@@ -23,22 +25,6 @@
 
 읽어주셔서 감사합니다.
 
-## 🎇 팀명 : SPAOGAME - 스파오게임
-
-- 팀원들 각자의 기술에 익숙해지는 것을 목표로 하여, 페이지 단위로 개발.
-- 팀원들 수준별로 적절한 역할 분담과 애자일한 스크럼 방식의 미팅, 그리고 규칙적이고 능동적인 의사소통으로 프로젝트를 성공적으로 마무리.
-- 기획 과정 없이 짧은 기간 안에 기술 습득 및 기본 기능 구현에 집중하기 위해서 SPAO 사이트를 참고.
-
-## 📅 개발 기간 및 개발 인원
-
-- 개발 기간 : 2021-10-05 ~ 2021-10-15 (공휴일 포함)
-- 개발 인원 <br/>
- 👨‍👧‍👦 **Front-End** 3명 : [강성구](https://github.com/seonggookang), [김현진](https://github.com/71summernight), [정경훈](https://github.com/kyunghoon1017) <br/>
- 👨‍👧‍👦 **Back-End** 3명 : [김주현](https://github.com/kjhabc2002), [이기용](https://github.com/leeky940926), [송영록](https://github.com/crescentfull)
-
-## 🎬 프로젝트 구현 영상
-
-- 🔗 ![영상 링크](
 
 ## ⚙ 적용 기술
 - **Front-End** : HTML5, CSS3, React, SASS, JSX
@@ -48,7 +34,7 @@
 ## 🗜 [데이터베이스 Diagram(클릭 시 해당 링크로 이동합니다)](https://www.erdcloud.com/d/m3PMPFjJyi8rAWYGK)
 ![SPAO_diagram_final](https://user-images.githubusercontent.com/78721108/137625673-58007c42-c404-4489-be98-d9a47b6dfe4d.png)
 
-## 💻 구현 기능
+## 💻 본인 구현 기능
 
 25-1st-SPAOGAME-backend/products 디렉토리 작업
 
@@ -57,7 +43,7 @@
 - 특정 상품 클릭 시, 상품 상세정보 보여주는 상세정보 API
 
 
-## ⌨ EndPoint
+## ⌨ 본인 구현 EndPoint
 
 1. POST/products/menus                              
 - 메뉴 항목 추가
